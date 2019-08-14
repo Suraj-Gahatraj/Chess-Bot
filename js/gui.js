@@ -2,7 +2,7 @@
 //var gameController=new GameController();
 
 document.getElementById("SetFen").addEventListener("click",()=>{
-	var fenStr = document.getElementById("fenIn").value=this.value;
+	var fenStr = document.getElementById("fenIn").value;
 	newGame(fenStr);
 });
 
