@@ -1,18 +1,110 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Chess Bot</title>
-</head>
-<body>
-<h1>welcome to the chess Bot</h1>
-    <script src="scripts/gameUtils.js"></script>
-    <script src="scripts/gamedef.js"></script>
-    <script src="scripts/Board.js"></script>
-    <script src="scripts/Engine.js"></script>
-    <script src="scripts/main.js"></script>
-    
-</body>
+	<head>
+		<meta charset="utf-8">
+		<title>JSChess</title>	
+		<link href="css/styles.css" rel="stylesheet" type="text/css">	
+		<script type="text/javascript"> if (!window.console) console = {log: function() {}}; </script>
+	</head>
+	<body>
+		<header class="header-tag">
+			<h3>Chess Bot</h3>			
+		</header>	
+<div class="main-game-container">
+	<div class="container">
+
+		<div id="FenInDiv">
+			<p class="fen-text" >FEN INPUT </p>
+			<input type="text" id="fenIn"/>		
+			<button type="button" id="SetFen" class="fen-button">Set Position</button>			
+		</div>		
+		<div id="Board" class="board-styler"></div>
+		<div class="engine-container">
+			
+				<div id="EngineOutput"> <br/>
+					<div class="engine-indicator">
+							Thinking Time:
+							<select id="ThinkTimeChoice">
+									<option value="1"  selected="selected">1s</option>
+									<option value="2">2s</option>
+									<option value="4">4s</option>
+									<option value="6">6s</option>
+									<option value="8">8s</option>
+									<option value="10">10s</option>
+								  </select><br/><br/><br/>
+								  <span id="BestOut">BestMove:</span><br/>
+								  <span id="DepthOut">Depth:</span><br/>
+								  <span id="ScoreOut">Score:</span><br/>
+								  <span id="NodesOut">Nodes:</span><br/>
+								  <span id="OrderingOut">Ordering:</span><br/>
+								  <span id="TimeOut">Time:</span><br/><br/>
+					</div>
+				
+					<button type="button" id="SearchButton" class="engine-button">Move Now</button>
+					<button type="button" id="NewGameButton" class="engine-button">New Game</button>
+					<button type="button" id="FlipButton" class="engine-button">Flip Board</button>
+					<button type="button" id="TakeButton" class="engine-button">Take Back</button>
+					<span id="GameStatus"></span>
+				</div>
+				</div>
+	</div>
+
+		
+		
+
+	</div>
+	
+		<script src="js/defs.js"></script>	
+		<script src="js/gameController.js"></script>
+		<script src="js/gameUser.js"></script>
+		<script src="js/utility.js"></script>
+		<script src="js/inout.js"></script>	
+		<script src="js/board.js"></script>	
+		<script src="js/movegen.js"></script>	
+		<script src="js/makemove.js"></script>
+		<script src="js/heuristic.js"></script>		
+		<script src="js/evaluate.js"></script>	
+		<script src="js/pvtable.js"></script>
+		<script src="js/search.js"></script>
+		<script src="js/perft.js"></script>
+		<script src="js/gui.js"></script>
+		<script src="js/main.js"></script>
+	</body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
