@@ -1,14 +1,14 @@
-function ClearPiece(sq) {
+function clearPiece(sq) {
 
 	var pce = gameBoard.pieces[sq];
 	var col = PieceCol[pce];
 	var index;
 	var t_pceNum = -1;
 	
-	HASH_PCE(pce, sq);
+	hashPce(pce, sq);
 	
 	gameBoard.pieces[sq] = PIECES.EMPTY;
-	gameBoard.material[col] -= PieceVal[pce];
+	gameBoard.material[col] -= pieceVal[pce];
 	
 	for(index = 0; index < gameBoard.pceNum[pce]; ++index) {
 		if(gameBoard.pList[PCEINDEX(pce,index)] == sq) {
@@ -22,28 +22,28 @@ function ClearPiece(sq) {
 
 }
 
-function AddPiece(sq, pce) {
+function addPiece(sq, pce) {
 
 	var col = PieceCol[pce];
 	
-	HASH_PCE(pce, sq);
+	hashPce(pce, sq);
 	
 	gameBoard.pieces[sq] = pce;
-	gameBoard.material[col] += PieceVal[pce];
+	gameBoard.material[col] += pieceVal[pce];
 	gameBoard.pList[PCEINDEX(pce, gameBoard.pceNum[pce])] = sq;
 	gameBoard.pceNum[pce]++;
 
 }
 
-function MovePiece(from, to) {
+function movePiece(from, to) {
 	
 	var index = 0;
 	var pce = gameBoard.pieces[from];
 	
-	HASH_PCE(pce, from);
+	hashPce(pce, from);
 	gameBoard.pieces[from] = PIECES.EMPTY;
 	
-	HASH_PCE(pce,to);
+	hashPce(pce,to);
 	gameBoard.pieces[to] = pce;
 	
 	for(index = 0; index < gameBoard.pceNum[pce]; ++index) {
@@ -55,7 +55,7 @@ function MovePiece(from, to) {
 	
 }
 
-function MakeMove(move) {
+function makeMove(move) {
 	
 	var from = FROMSQ(move);
     var to = TOSQ(move);
@@ -65,54 +65,54 @@ function MakeMove(move) {
 
 	if( (move & MFLAGEP) != 0) {
 		if(side == COLOURS.WHITE) {
-			ClearPiece(to-10);
+			clearPiece(to-10);
 		} else {
-			ClearPiece(to+10);
+			clearPiece(to+10);
 		}
 	} else if( (move & MFLAGCA) != 0) {
 		switch(to) {
 			case SQUARES.C1:
-                MovePiece(SQUARES.A1, SQUARES.D1);
+                movePiece(SQUARES.A1, SQUARES.D1);
 			break;
             case SQUARES.C8:
-                MovePiece(SQUARES.A8, SQUARES.D8);
+                movePiece(SQUARES.A8, SQUARES.D8);
 			break;
             case SQUARES.G1:
-                MovePiece(SQUARES.H1, SQUARES.F1);
+                movePiece(SQUARES.H1, SQUARES.F1);
 			break;
             case SQUARES.G8:
-                MovePiece(SQUARES.H8, SQUARES.F8);
+                movePiece(SQUARES.H8, SQUARES.F8);
 			break;
             default: break;
 		}
 	}
 	
-	if(gameBoard.enPas != SQUARES.NO_SQ) HASH_EP();
-	HASH_CA();
+	if(gameBoard.enPas != SQUARES.NO_SQ) hashEp();
+	hashCa();
 	
 	gameBoard.history[gameBoard.hisPly].move = move;
     gameBoard.history[gameBoard.hisPly].fiftyMove = gameBoard.fiftyMove;
     gameBoard.history[gameBoard.hisPly].enPas = gameBoard.enPas;
     gameBoard.history[gameBoard.hisPly].castlePerm = gameBoard.castlePerm;
     
-    gameBoard.castlePerm &= CastlePerm[from];
-    gameBoard.castlePerm &= CastlePerm[to];
+    gameBoard.castlePerm &= castlePerm[from];
+    gameBoard.castlePerm &= castlePerm[to];
     gameBoard.enPas = SQUARES.NO_SQ;
     
-    HASH_CA();
+    hashCa();
     
     var captured = CAPTURED(move);
     gameBoard.fiftyMove++;
     
     if(captured != PIECES.EMPTY) {
-        ClearPiece(to);
+        clearPiece(to);
         gameBoard.fiftyMove = 0;
     }
     
     gameBoard.hisPly++;
 	gameBoard.ply++;
 	
-	if(PiecePawn[gameBoard.pieces[from]] == BOOL.TRUE) {
+	if(piecePawn[gameBoard.pieces[from]] == BOOL.TRUE) {
         gameBoard.fiftyMove = 0;
         if( (move & MFLAGPS) != 0) {
             if(side==COLOURS.WHITE) {
@@ -120,30 +120,30 @@ function MakeMove(move) {
             } else {
                 gameBoard.enPas=from-10;
             }
-            HASH_EP();
+            hashEp();
         }
     }
     
-    MovePiece(from, to);
+    movePiece(from, to);
     
     var prPce = PROMOTED(move);
     if(prPce != PIECES.EMPTY)   {       
-        ClearPiece(to);
-        AddPiece(to, prPce);
+        clearPiece(to);
+        addPiece(to, prPce);
     }
     
     gameBoard.side ^= 1;
-    HASH_SIDE();
+    hashSide();
     
-    if(gameBoard.SqAttacked(gameBoard.pList[PCEINDEX(Kings[side],0)], gameBoard.side))  {
-         TakeMove();
+    if(gameBoard.sqAttacked(gameBoard.pList[PCEINDEX(Kings[side],0)], gameBoard.side))  {
+         takeMove();
     	return BOOL.FALSE;
     }
     
     return BOOL.TRUE;
 }
 
-function TakeMove() {
+function takeMove() {
 	
 	gameBoard.hisPly--;
     gameBoard.ply--;
@@ -152,45 +152,45 @@ function TakeMove() {
 	var from = FROMSQ(move);
     var to = TOSQ(move);
     
-    if(gameBoard.enPas != SQUARES.NO_SQ) HASH_EP();
-    HASH_CA();
+    if(gameBoard.enPas != SQUARES.NO_SQ) hashEp();
+    hashCa();
     
     gameBoard.castlePerm = gameBoard.history[gameBoard.hisPly].castlePerm;
     gameBoard.fiftyMove = gameBoard.history[gameBoard.hisPly].fiftyMove;
     gameBoard.enPas = gameBoard.history[gameBoard.hisPly].enPas;
     
-    if(gameBoard.enPas != SQUARES.NO_SQ) HASH_EP();
-    HASH_CA();
+    if(gameBoard.enPas != SQUARES.NO_SQ) hashEp();
+    hashCa();
     
     gameBoard.side ^= 1;
-    HASH_SIDE();
+    hashSide();
     
     if( (MFLAGEP & move) != 0) {
         if(gameBoard.side == COLOURS.WHITE) {
-            AddPiece(to-10, PIECES.bP);
+            addPiece(to-10, PIECES.bP);
         } else {
-            AddPiece(to+10, PIECES.wP);
+            addPiece(to+10, PIECES.wP);
         }
     } else if( (MFLAGCA & move) != 0) {
         switch(to) {
-        	case SQUARES.C1: MovePiece(SQUARES.D1, SQUARES.A1); break;
-            case SQUARES.C8: MovePiece(SQUARES.D8, SQUARES.A8); break;
-            case SQUARES.G1: MovePiece(SQUARES.F1, SQUARES.H1); break;
-            case SQUARES.G8: MovePiece(SQUARES.F8, SQUARES.H8); break;
+        	case SQUARES.C1: movePiece(SQUARES.D1, SQUARES.A1); break;
+            case SQUARES.C8: movePiece(SQUARES.D8, SQUARES.A8); break;
+            case SQUARES.G1: movePiece(SQUARES.F1, SQUARES.H1); break;
+            case SQUARES.G8: movePiece(SQUARES.F8, SQUARES.H8); break;
             default: break;
         }
     }
     
-    MovePiece(to, from);
+    movePiece(to, from);
     
     var captured = CAPTURED(move);
     if(captured != PIECES.EMPTY) {      
-        AddPiece(to, captured);
+        addPiece(to, captured);
     }
     
     if(PROMOTED(move) != PIECES.EMPTY)   {        
-        ClearPiece(from);
-        AddPiece(from, (PieceCol[PROMOTED(move)] == COLOURS.WHITE ? PIECES.wP : PIECES.bP));
+        clearPiece(from);
+        addPiece(from, (PieceCol[PROMOTED(move)] == COLOURS.WHITE ? PIECES.wP : PIECES.bP));
     }
     
 }

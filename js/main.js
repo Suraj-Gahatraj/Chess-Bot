@@ -2,7 +2,7 @@
 init();
 newGame(START_FEN);
 
-function InitFilesRanksBrd() {
+function initFilesRanksBrd() {
 	
 	var index = 0;
 	var file = FILES.FILE_A;
@@ -10,34 +10,34 @@ function InitFilesRanksBrd() {
 	var sq = SQUARES.A1;
 	
 	for(index = 0; index < BRD_SQ_NUM; ++index) {
-		FilesBrd[index] = SQUARES.OFFBOARD;
-		RanksBrd[index] = SQUARES.OFFBOARD;
+		filesBrd[index] = SQUARES.OFFBOARD;
+		ranksBrd[index] = SQUARES.OFFBOARD;
 	}
 	
 	for(rank = RANKS.RANK_1; rank <= RANKS.RANK_8; ++rank) {
 		for(file = FILES.FILE_A; file <= FILES.FILE_H; ++file) {
 			sq = FR2SQ(file,rank);
-			FilesBrd[sq] = file;
-			RanksBrd[sq] = rank;
+			filesBrd[sq] = file;
+			ranksBrd[sq] = rank;
 		}
 	}
 }
 
-function InitHashKeys() {
+function initHashKeys() {
     var index = 0;
 	
 	for(index = 0; index < 14 * 120; ++index) {				
-		PieceKeys[index] = RAND_32();
+		pieceKeys[index] = RAND_32();
 	}
 	
 	SideKey = RAND_32();
 	
 	for(index = 0; index < 16; ++index) {
-		CastleKeys[index] = RAND_32();
+		castleKeys[index] = RAND_32();
 	}
 }
 
-function InitSq120To64() {
+function initSq120To64() {
 
 	var index = 0;
 	var file = FILES.FILE_A;
@@ -46,25 +46,25 @@ function InitSq120To64() {
 	var sq64 = 0;
 
 	for(index = 0; index < BRD_SQ_NUM; ++index) {
-		Sq120ToSq64[index] = 65;
+		sq120ToSq64[index] = 65;
 	}
 	
 	for(index = 0; index < 64; ++index) {
-		Sq64ToSq120[index] = 120;
+		sq64ToSq120[index] = 120;
 	}
 	
 	for(rank = RANKS.RANK_1; rank <= RANKS.RANK_8; ++rank) {
 		for(file = FILES.FILE_A; file <= FILES.FILE_H; ++file) {
 			sq = FR2SQ(file,rank);
-			Sq64ToSq120[sq64] = sq;
-			Sq120ToSq64[sq] = sq64;
+			sq64ToSq120[sq64] = sq;
+			sq120ToSq64[sq] = sq64;
 			sq64++;
 		}
 	}
 
 }
 
-function InitBoardVars() {
+function initBoardVars() {
 
 	var index = 0;
 	for(index = 0; index < MAXGAMEMOVES; ++index) {
@@ -85,7 +85,7 @@ function InitBoardVars() {
 	}
 }
 
-function InitBoardSquares() {
+function initBoardSquares() {
 	var light = 1;
 	var rankName;
 	var fileName;
@@ -113,13 +113,12 @@ function InitBoardSquares() {
 }
 
 function init() {
-	console.log("init() called");
-	InitFilesRanksBrd();
-	InitHashKeys();
-	InitSq120To64();
-	InitBoardVars();
-	InitMvvLva();
-	InitBoardSquares();
+	initFilesRanksBrd();
+	initHashKeys();
+	initSq120To64();
+	initBoardVars();
+	initMvvLva();
+	initBoardSquares();
 }
 
 

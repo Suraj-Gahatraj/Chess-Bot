@@ -1,28 +1,28 @@
-function GetPvLine(depth) {
+function getPvLine(depth) {
 	
-	var move = ProbePvTable();
+	var move = probePvTable();
 	var count = 0;
 	
 	while(move != NOMOVE && count < depth) {
 	
-		if( MoveExists(move) == BOOL.TRUE) {
-			MakeMove(move);
+		if( moveExists(move) == BOOL.TRUE) {
+			makeMove(move);
 			gameBoard.PvArray[count++] = move;			
 		} else {
 			break;
 		}		
-		move = ProbePvTable();	
+		move = probePvTable();	
 	}
 	
 	while(gameBoard.ply > 0) {
-		TakeMove();
+		takeMove();
 	}
 	
 	return count;
 	
 }
 
-function ProbePvTable() {
+function probePvTable() {
 	var index = gameBoard.posKey % PVENTRIES;
 	
 	if(gameBoard.PvTable[index].posKey == gameBoard.posKey) {
@@ -32,7 +32,7 @@ function ProbePvTable() {
 	return NOMOVE;
 }
 
-function StorePvMove(move) {
+function storePvMove(move) {
 	var index = gameBoard.posKey % PVENTRIES;
 	gameBoard.PvTable[index].posKey = gameBoard.posKey;
 	gameBoard.PvTable[index].move = move;

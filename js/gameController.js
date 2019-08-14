@@ -2,9 +2,9 @@ class GameController {
 
     constructor()
     {
-        this.EngineSide = COLOURS.BOTH;
-        this.PlayerSide = COLOURS.BOTH;
-        this.GameOver = BOOL.FALSE;
+        this.engineSide = COLOURS.BOTH;
+        this.playerSide = COLOURS.BOTH;
+        this.gameOver = BOOL.FALSE;
     }
 
 }

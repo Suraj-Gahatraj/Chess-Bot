@@ -9,7 +9,7 @@ document.getElementById("SetFen").addEventListener("click",()=>{
 
 document.getElementById("TakeButton").addEventListener("click",()=>{
 	if(gameBoard.hisPly > 0) {
-		TakeMove();
+		takeMove();
 		gameBoard.ply = 0;
 		setInitialBoardPieces();
 	}
@@ -34,8 +34,8 @@ document.getElementById("exitgame").addEventListener("click",()=>{
 
 
 function newGame(fenStr) {
-	gameBoard.ParseFen(fenStr);
-	gameBoard.PrintBoard();
+	gameBoard.parseFen(fenStr);
+	gameBoard.printBoard();
 	setInitialBoardPieces();
 	checkAndSet();
 	var src=document.getElementById("TurnTime");
@@ -114,7 +114,7 @@ function clickedSquare(pageX, pageY) {
 	
 	var sq = FR2SQ(file,rank);
 	
-	console.log('Clicked sq:' + PrSq(sq));
+	console.log('Clicked sq:' + prSq(sq));
 	
 	setSqSelected(sq);	
 	var src=document.getElementById("TurnTime");
@@ -162,13 +162,13 @@ function makeuserMove() {
 
 	if(userMove.from != SQUARES.NO_SQ && userMove.to != SQUARES.NO_SQ) {
 	
-		console.log("User Move:" + PrSq(userMove.from) + PrSq(userMove.to));	
+		console.log("User Move:" + prSq(userMove.from) + prSq(userMove.to));	
 		
-		var parsed = ParseMove(userMove.from,userMove.to);
+		var parsed = parseMove(userMove.from,userMove.to);
 		
 		if(parsed != NOMOVE) {
-			MakeMove(parsed);
-			gameBoard.PrintBoard();
+			makeMove(parsed);
+			gameBoard.printBoard();
 			moveGUIPiece(parsed);
 			checkAndSet();
 			preSearch();
@@ -185,8 +185,8 @@ function makeuserMove() {
 
 function pieceIsOnSq(sq, top, left) {
 
-	if( (RanksBrd[sq] == 7 - Math.round(top/60) ) && 
-		FilesBrd[sq] == Math.round(left/60) ) {
+	if( (ranksBrd[sq] == 7 - Math.round(top/60) ) && 
+		filesBrd[sq] == Math.round(left/60) ) {
 		return BOOL.TRUE;
 	}
 		
@@ -209,11 +209,11 @@ function removeGUIPiece(sq)
 
 function addGUIPiece(sq, pce) {
 
-	var file = FilesBrd[sq];
-	var rank = RanksBrd[sq];
+	var file = filesBrd[sq];
+	var rank = ranksBrd[sq];
 	var rankName = "rank" + (rank+1);
 	var	fileName = "file" + (file+1);
-	var pieceFileName = "images/" + SideChar[PieceCol[pce]] + PceChar[pce].toUpperCase() + ".png";
+	var pieceFileName = "images/" + sideChar[PieceCol[pce]] + pceChar[pce].toUpperCase() + ".png";
 	var src=document.getElementById("Board");
 	var image=document.createElement("img");
 	image.src=pieceFileName;
@@ -238,8 +238,8 @@ function moveGUIPiece(move) {
 		removeGUIPiece(to);
 	}
 	
-	var file = FilesBrd[to];
-	var rank = RanksBrd[to];
+	var file = filesBrd[to];
+	var rank = ranksBrd[to];
 	var rankName = "rank" + (rank+1);
 	var	fileName = "file" + (file+1);
 	
@@ -311,24 +311,24 @@ function checkResult() {
      	return BOOL.TRUE;
     }
     
-    GenerateMoves();
+    generateMoves();
       
     var MoveNum = 0;
 	var found = 0;
 	
 	for(MoveNum = gameBoard.moveListStart[gameBoard.ply]; MoveNum < gameBoard.moveListStart[gameBoard.ply + 1]; ++MoveNum)  {	
        
-        if ( MakeMove(gameBoard.moveList[MoveNum]) == BOOL.FALSE)  {
+        if ( makeMove(gameBoard.moveList[MoveNum]) == BOOL.FALSE)  {
             continue;
         }
         found++;
-		TakeMove();
+		takeMove();
 		break;
     }
 	
 	if(found != 0) return BOOL.FALSE;
 	
-	var InCheck = gameBoard.SqAttacked(gameBoard.pList[PCEINDEX(Kings[gameBoard.side],0)], gameBoard.side^1);
+	var InCheck = gameBoard.sqAttacked(gameBoard.pList[PCEINDEX(Kings[gameBoard.side],0)], gameBoard.side^1);
 	
 	if(InCheck == BOOL.TRUE) {
 		if(gameBoard.side == COLOURS.WHITE) {
@@ -361,16 +361,16 @@ function checkResult() {
 
 function checkAndSet() {
 	if(checkResult() == BOOL.TRUE) {
-		gameController.GameOver = BOOL.TRUE;
+		gameController.gameOver = BOOL.TRUE;
 	} else {
-		gameController.GameOver = BOOL.FALSE;
+		gameController.gameOver = BOOL.FALSE;
 		
 		document.getElementById("GameStatus").innerHTML="";
 	}
 }
 
 function preSearch() {
-	if(gameController.GameOver == BOOL.FALSE) {
+	if(gameController.gameOver == BOOL.FALSE) {
 		searchController.thinking = BOOL.TRUE;
 		setTimeout( function() { startSearch(); }, 200 );
 		
@@ -381,7 +381,7 @@ function preSearch() {
 
 document.getElementById("SearchButton").addEventListener("click",()=>
 {	
-	 	gameController.PlayerSide = gameController.side ^ 1;
+	 	gameController.playerSide = gameController.side ^ 1;
 		preSearch();
 
 });
@@ -393,8 +393,8 @@ function startSearch() {
 	var el=document.getElementById("ThinkTimeChoice");
 	var tt=el.options[el.selectedIndex].text;
 	searchController.time = parseInt(tt) * 1000;
-	searchController.SearchPosition();
-	MakeMove(searchController.best);
+	searchController.searchPosition();
+	makeMove(searchController.best);
 	moveGUIPiece(searchController.best);
 	checkAndSet();
 	var src=document.getElementById("TurnTime");

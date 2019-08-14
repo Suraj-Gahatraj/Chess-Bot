@@ -11,11 +11,11 @@ function RAND_32() {
 
 
 function SQ64(sq120) { 
-	return Sq120ToSq64[(sq120)];
+	return sq120ToSq64[(sq120)];
 }
 
 function SQ120(sq64) {
-	return Sq64ToSq120[(sq64)];
+	return sq64ToSq120[(sq64)];
 }
 
 function PCEINDEX(pce, pceNum) {
@@ -23,7 +23,7 @@ function PCEINDEX(pce, pceNum) {
 }
 
 function MIRROR64(sq) {
-	return Mirror64[sq];
+	return mirror64[sq];
 }
 
 
@@ -33,7 +33,7 @@ function CAPTURED(m) { return ( (m >> 14) & 0xF); }
 function PROMOTED(m) { return ( (m >> 20) & 0xF); }
 
 function SQOFFBOARD(sq) {
-	if(FilesBrd[sq]==SQUARES.OFFBOARD) return BOOL.TRUE;
+	if(filesBrd[sq]==SQUARES.OFFBOARD) return BOOL.TRUE;
 	return BOOL.FALSE;	
 }
 

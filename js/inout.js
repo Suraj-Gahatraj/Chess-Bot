@@ -1,16 +1,16 @@
-function PrSq(sq) {
-	return (FileChar[FilesBrd[sq]] + RankChar[RanksBrd[sq]]);
+function prSq(sq) {
+	return (fileChar[filesBrd[sq]] + rankChar[ranksBrd[sq]]);
 }
 
-function PrMove(move) {	
-	var MvStr;
+function prMove(move) {	
+	var mvStr;
 	
-	var ff = FilesBrd[FROMSQ(move)];
-	var rf = RanksBrd[FROMSQ(move)];
-	var ft = FilesBrd[TOSQ(move)];
-	var rt = RanksBrd[TOSQ(move)];
+	var ff = filesBrd[FROMSQ(move)];
+	var rf = ranksBrd[FROMSQ(move)];
+	var ft = filesBrd[TOSQ(move)];
+	var rt = ranksBrd[TOSQ(move)];
 	
-	MvStr = FileChar[ff] + RankChar[rf] + FileChar[ft] + RankChar[rt];
+	mvStr = fileChar[ff] + rankChar[rf] + fileChar[ft] + rankChar[rt];
 	
 	var promoted = PROMOTED(move);
 
@@ -23,12 +23,12 @@ function PrMove(move) {
 		} else if(PieceRookQueen[promoted] == BOOL.FALSE && PieceBishopQueen[promoted] == BOOL.TRUE)   {
 			pchar = 'b';
 		}
-		MvStr += pchar;
+		mvStr += pchar;
 	}
-	return MvStr;
+	return mvStr;
 }
 
-function PrintMoveList() {
+function printMoveList() {
 
 	var index;
 	var move;
@@ -37,15 +37,15 @@ function PrintMoveList() {
 
 	for(index = gameBoard.moveListStart[gameBoard.ply]; index < gameBoard.moveListStart[gameBoard.ply+1]; ++index) {
 		move = gameBoard.moveList[index];
-		console.log('IMove:' + num + ':(' + index + '):' + PrMove(move) + ' Score:' +  gameBoard.moveScores[index]);
+		console.log('IMove:' + num + ':(' + index + '):' + prMove(move) + ' Score:' +  gameBoard.moveScores[index]);
 		num++;
 	}
 	console.log('End MoveList');
 }
 
-function ParseMove(from, to) {
+function parseMove(from, to) {
 
-	GenerateMoves();
+	generateMoves();
 	
 	var Move = NOMOVE;
 	var PromPce = PIECES.EMPTY;
@@ -70,10 +70,10 @@ function ParseMove(from, to) {
 	}
 	
 	if(found != BOOL.FALSE) {
-		if(MakeMove(Move) == BOOL.FALSE) {
+		if(makeMove(Move) == BOOL.FALSE) {
 			return NOMOVE;
 		}
-		TakeMove();
+		takeMove();
 		return Move;
 	}
 	

@@ -13,7 +13,7 @@ class  SearchController  {
 		this.thinking;
 	}
 	
-PickNextMove(MoveNum) {
+pickNextMove(MoveNum) {
 
 	var index = 0;
 	var bestScore = -1;
@@ -39,7 +39,7 @@ PickNextMove(MoveNum) {
 
 }
 
-ClearPvTable() {
+clearPvTable() {
 	
 	for(index = 0; index < PVENTRIES; index++) {
 			gameBoard.PvTable[index].move = NOMOVE;
@@ -47,12 +47,12 @@ ClearPvTable() {
 	}
 }
 
-CheckUp() {
+checkUp() {
 	if (( Date.now() - this.start ) > this.time) {
 		this.stop = BOOL.TRUE;
 	}
 }
- IsRepetition() {
+ isRepetition() {
 	var index = 0;
 	
 	for(index = gameBoard.hisPly - gameBoard.fiftyMove; index < gameBoard.hisPly - 1; ++index) {
@@ -63,23 +63,23 @@ CheckUp() {
 	
 	return BOOL.FALSE;
 }
- Quiescence(alpha, beta) {
+ quieScence(alpha, beta) {
 
 	if ((this.nodes & 2047) == 0) {
-		this.CheckUp();
+		this.checkUp();
 	}
 	
 	this.nodes++;
 	
-	if( (this.IsRepetition() || gameBoard.fiftyMove >= 100) && gameBoard.ply != 0) {
+	if( (this.isRepetition() || gameBoard.fiftyMove >= 100) && gameBoard.ply != 0) {
 		return 0;
 	}
 	
 	if(gameBoard.ply > MAXDEPTH -1) {
-		return EvalPosition();
+		return evalPosition();
 	}	
 	
-	var Score = EvalPosition();
+	var Score = evalPosition();
 	
 	if(Score >= beta) {
 		return beta;
@@ -89,7 +89,7 @@ CheckUp() {
 		alpha = Score;
 	}
 	
-	GenerateCaptures();
+	generateCaptures();
 	
 	var MoveNum = 0;
 	var Legal = 0;
@@ -99,17 +99,17 @@ CheckUp() {
 	
 	for(MoveNum = gameBoard.moveListStart[gameBoard.ply]; MoveNum < gameBoard.moveListStart[gameBoard.ply + 1]; ++MoveNum) {
 	
-		this.PickNextMove(MoveNum);
+		this.pickNextMove(MoveNum);
 		
 		Move = gameBoard.moveList[MoveNum];	
 
-		if(MakeMove(Move) == BOOL.FALSE) {
+		if(makeMove(Move) == BOOL.FALSE) {
 			continue;
 		}		
 		Legal++;
-		Score = -this.Quiescence( -beta, -alpha);
+		Score = -this.quieScence( -beta, -alpha);
 		
-		TakeMove();
+		takeMove();
 		
 		if(this.stop == BOOL.TRUE) {
 			return 0;
@@ -129,42 +129,42 @@ CheckUp() {
 	}
 	
 	if(alpha != OldAlpha) {
-		StorePvMove(BestMove);
+		storePvMove(BestMove);
 	}
 	
 	return alpha;
 
 }
 
- AlphaBeta(alpha, beta, depth) {
+ alphaBeta(alpha, beta, depth) {
 
 	
 	if(depth <= 0) {
-		return this.Quiescence(alpha, beta);
+		return this.quieScence(alpha, beta);
 	}
 	
 	if ((this.nodes & 2047) == 0) {
-		this.CheckUp();
+		this.checkUp();
 	}
 	
 	this.nodes++;
 	
-	if( (this.IsRepetition() || gameBoard.fiftyMove >= 100) && gameBoard.ply != 0) {
+	if( (this.isRepetition() || gameBoard.fiftyMove >= 100) && gameBoard.ply != 0) {
 		return 0;
 	}
 	
 	if(gameBoard.ply > MAXDEPTH -1) {
-		return EvalPosition();
+		return evalPosition();
 	}	
 	
-	var InCheck = gameBoard.SqAttacked(gameBoard.pList[PCEINDEX(Kings[gameBoard.side],0)], gameBoard.side^1);
+	var InCheck = gameBoard.sqAttacked(gameBoard.pList[PCEINDEX(Kings[gameBoard.side],0)], gameBoard.side^1);
 	if(InCheck == BOOL.TRUE)  {
 		depth++;
 	}	
 	
 	var Score = -INFINITE;
 	
-	GenerateMoves();
+	generateMoves();
 	
 	var MoveNum = 0;
 	var Legal = 0;
@@ -172,7 +172,7 @@ CheckUp() {
 	var BestMove = NOMOVE;
 	var Move = NOMOVE;	
 	
-	var PvMove = ProbePvTable();
+	var PvMove = probePvTable();
 	if(PvMove != NOMOVE) {
 		for(MoveNum = gameBoard.moveListStart[gameBoard.ply]; MoveNum < gameBoard.moveListStart[gameBoard.ply + 1]; ++MoveNum) {
 			if(gameBoard.moveList[MoveNum] == PvMove) {
@@ -184,17 +184,17 @@ CheckUp() {
 	
 	for(MoveNum = gameBoard.moveListStart[gameBoard.ply]; MoveNum < gameBoard.moveListStart[gameBoard.ply + 1]; ++MoveNum) {
 	
-		this.PickNextMove(MoveNum);	
+		this.pickNextMove(MoveNum);	
 		
 		Move = gameBoard.moveList[MoveNum];	
 		
-		if(MakeMove(Move) == BOOL.FALSE) {
+		if(makeMove(Move) == BOOL.FALSE) {
 			continue;
 		}		
 		Legal++;
-		Score = -this.AlphaBeta( -beta, -alpha, depth-1);
+		Score = -this.alphaBeta( -beta, -alpha, depth-1);
 		
-		TakeMove();
+		takeMove();
 		
 		if(this.stop == BOOL.TRUE) {
 			return 0;
@@ -231,13 +231,13 @@ CheckUp() {
 	}	
 	
 	if(alpha != OldAlpha) {
-		StorePvMove(BestMove);
+		storePvMove(BestMove);
 	}
 	
 	return alpha;
 }
 
- ClearForSearch() {
+ clearForSearch() {
 
 	var index = 0;
 	var index2 = 0;
@@ -250,7 +250,7 @@ CheckUp() {
 		gameBoard.searchKillers[index] = 0;
 	}	
 	
-	this.ClearPvTable();
+	this.clearPvTable();
 	gameBoard.ply = 0;
 	this.nodes = 0;
 	this.fh = 0;
@@ -259,7 +259,7 @@ CheckUp() {
 	this.stop = BOOL.FALSE;
 }
 
- SearchPosition() {
+ searchPosition() {
 
 	var bestMove = NOMOVE;
 	var bestScore = -INFINITE;
@@ -268,25 +268,25 @@ CheckUp() {
 	var line;
 	var PvNum;
 	var c;
-	this.ClearForSearch();
+	this.clearForSearch();
 	
 	for( currentDepth = 1; currentDepth <= this.depth; ++currentDepth) {	
 	
-		Score = this.AlphaBeta(-INFINITE, INFINITE, currentDepth);
+		Score = this.alphaBeta(-INFINITE, INFINITE, currentDepth);
 					
 		if(this.stop == BOOL.TRUE) {
 			break;
 		}
 		
 		bestScore = Score; 
-		bestMove = ProbePvTable();
-		line = 'D:' + currentDepth + ' Best:' + PrMove(bestMove) + ' Score:' + bestScore + 
+		bestMove = probePvTable();
+		line = 'D:' + currentDepth + ' Best:' + prMove(bestMove) + ' Score:' + bestScore + 
 				' nodes:' + this.nodes;
 				
-		PvNum = GetPvLine(currentDepth);
+		PvNum = getPvLine(currentDepth);
 		line += ' Pv:';
 		for( c = 0; c < PvNum; ++c) {
-			line += ' ' + PrMove(gameBoard.PvArray[c]);
+			line += ' ' + prMove(gameBoard.PvArray[c]);
 		}
 		if(currentDepth!=1) {
 			line += (" Ordering:" + ((this.fhf/this.fh)*100).toFixed(2) + "%");
@@ -297,10 +297,10 @@ CheckUp() {
 
 	this.best = bestMove;
 	this.thinking = BOOL.FALSE;
-	this.UpdateDOMStats(bestScore, currentDepth);
+	this.updateDOMStats(bestScore, currentDepth);
 }
 
- UpdateDOMStats(dom_score, dom_depth) {
+ updateDOMStats(dom_score, dom_depth) {
 
 	var scoreText = "Score: " + (dom_score / 100).toFixed(2);
 	if(Math.abs(dom_score) > MATE - MAXDEPTH) {
@@ -313,7 +313,7 @@ CheckUp() {
 	document.getElementById("ScoreOut").innerHTML=scoreText;
 	document.getElementById("NodesOut").innerHTML="Nodes: " + this.nodes;
 	document.getElementById("TimeOut").innerHTML="Time: " + ((Date.now()-this.start)/1000).toFixed(1) + "s";
-	document.getElementById("BestOut").innerHTML="BestMove: " + PrMove(this.best);
+	document.getElementById("BestOut").innerHTML="BestMove: " + prMove(this.best);
 }
 
 

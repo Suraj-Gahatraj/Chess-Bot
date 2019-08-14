@@ -25,7 +25,7 @@ class GameBoard {
 
 
 
- CheckBoard() {   
+ checkBoard() {   
 
 	var t_pceNum = [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 	var t_material = [ 0, 0];
@@ -44,7 +44,7 @@ class GameBoard {
 		sq120 = SQ120(sq64);
 		t_piece = this.pieces[sq120];
 		t_pceNum[t_piece]++;
-		t_material[PieceCol[t_piece]] += PieceVal[t_piece];
+		t_material[PieceCol[t_piece]] += pieceVal[t_piece];
 	}
 	
 	for(t_piece = PIECES.wP; t_piece <= PIECES.bK; ++t_piece) {
@@ -72,17 +72,17 @@ class GameBoard {
 	return BOOL.TRUE;
 }
 
- PrintBoard() {
+ printBoard() {
 	
 	var sq,file,rank,piece;
 
 	console.log("\nGame Board:\n");
 	for(rank = RANKS.RANK_8; rank >= RANKS.RANK_1; rank--) {
-		var line =(RankChar[rank] + "  ");
+		var line =(rankChar[rank] + "  ");
 		for(file = FILES.FILE_A; file <= FILES.FILE_H; file++) {
 			sq = FR2SQ(file,rank);
 			piece = this.pieces[sq];
-			line += (" " + PceChar[piece] + " ");
+			line += (" " + pceChar[piece] + " ");
 		}
 		console.log(line);
 	}
@@ -90,11 +90,11 @@ class GameBoard {
 	console.log("");
 	var line = "   ";
 	for(file = FILES.FILE_A; file <= FILES.FILE_H; file++) {
-		line += (' ' + FileChar[file] + ' ');	
+		line += (' ' + fileChar[file] + ' ');	
 	}
 	
 	console.log(line);
-	console.log("side:" + SideChar[this.side] );
+	console.log("side:" + sideChar[this.side] );
 	console.log("enPas:" + this.enPas);
 	line = "";	
 	
@@ -106,7 +106,7 @@ class GameBoard {
 	console.log("key:" + this.posKey.toString(16));
 }
 
- GeneratePosKey() {
+ generatePosKey() {
 
 	var sq = 0;
 	var finalKey = 0;
@@ -115,37 +115,37 @@ class GameBoard {
 	for(sq = 0; sq < BRD_SQ_NUM; ++sq) {
 		piece = this.pieces[sq];
 		if(piece != PIECES.EMPTY && piece != SQUARES.OFFBOARD) {			
-			finalKey ^= PieceKeys[(piece * 120) + sq];
+			finalKey ^= pieceKeys[(piece * 120) + sq];
 		}		
 	}
 
 	if(this.side == COLOURS.WHITE) {
-		finalKey ^= SideKey;
+		finalKey ^= sideKey;
 	}
 	
 	if(this.enPas != SQUARES.NO_SQ) {		
-		finalKey ^= PieceKeys[this.enPas];
+		finalKey ^= pieceKeys[this.enPas];
 	}
 	
-	finalKey ^= CastleKeys[this.castlePerm];
+	finalKey ^= castleKeys[this.castlePerm];
 	
 	return finalKey;
 
 }
 
- PrintPieceLists() {
+ printPieceLists() {
 
 	var piece, pceNum;
 	
 	for(piece = PIECES.wP; piece <= PIECES.bK; ++piece) {
 		for(pceNum = 0; pceNum < this.pceNum[piece]; ++pceNum) {
-			console.log('Piece ' + PceChar[piece] + ' on ' + PrSq( this.pList[PCEINDEX(piece,pceNum)] ));
+			console.log('Piece ' + pceChar[piece] + ' on ' + PrSq( this.pList[PCEINDEX(piece,pceNum)] ));
 		}
 	}
 
 }
 
- UpdateListsMaterial() {	
+ updateListsMaterial() {	
 	
 	var piece,sq,index,colour;
 	
@@ -168,7 +168,7 @@ class GameBoard {
 			
 			colour = PieceCol[piece];		
 			
-			this.material[colour] += PieceVal[piece];
+			this.material[colour] += pieceVal[piece];
 			
 			this.pList[PCEINDEX(piece,this.pceNum[piece])] = sq;
 			this.pceNum[piece]++;			
@@ -177,7 +177,7 @@ class GameBoard {
 	
 }
 
- ResetBoard() {
+ resetBoard() {
 	
 	var index = 0;
 	
@@ -202,9 +202,9 @@ class GameBoard {
 
 //rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
 
- ParseFen(fen) {
+ parseFen(fen) {
 
-	this.ResetBoard();
+	this.resetBoard();
 	
 	var rank = RANKS.RANK_8;
     var file = FILES.FILE_A;
@@ -288,11 +288,11 @@ class GameBoard {
 		this.enPas = FR2SQ(file,rank);		
     }
 	
-	this.posKey = this.GeneratePosKey();	
-	this.UpdateListsMaterial();
+	this.posKey = this.generatePosKey();	
+	this.updateListsMaterial();
 }
 
- PrintSqAttacked() {
+ printSqAttacked() {
 	
 	var sq,file,rank,piece;
 
@@ -313,7 +313,7 @@ class GameBoard {
 	
 }
 
- SqAttacked(sq, side) {
+ sqAttacked(sq, side) {
 	var pce;
 	var t_sq;
 	var index;
@@ -329,19 +329,19 @@ class GameBoard {
 	}
 	
 	for(index = 0; index < 8; index++) {
-		pce = this.pieces[sq + KnDir[index]];
+		pce = this.pieces[sq + knDir[index]];
 		if(pce != SQUARES.OFFBOARD && PieceCol[pce] == side && PieceKnight[pce] == BOOL.TRUE) {
 			return BOOL.TRUE;
 		}
 	}
 	
 	for(index = 0; index < 4; ++index) {		
-		var dir = RkDir[index];
+		var dir = rkDir[index];
 		t_sq = sq + dir;
 		pce = this.pieces[t_sq];
 		while(pce != SQUARES.OFFBOARD) {
 			if(pce != PIECES.EMPTY) {
-				if(PieceRookQueen[pce] == BOOL.TRUE && PieceCol[pce] == side) {
+				if(pieceRookQueen[pce] == BOOL.TRUE && PieceCol[pce] == side) {
 					return BOOL.TRUE;
 				}
 				break;
@@ -352,12 +352,12 @@ class GameBoard {
 	}
 	
 	for(index = 0; index < 4; ++index) {		
-		dir = BiDir[index];
+		dir = biDir[index];
 		t_sq = sq + dir;
 		pce = this.pieces[t_sq];
 		while(pce != SQUARES.OFFBOARD) {
 			if(pce != PIECES.EMPTY) {
-				if(PieceBishopQueen[pce] == BOOL.TRUE && PieceCol[pce] == side) {
+				if(pieceBishopQueen[pce] == BOOL.TRUE && PieceCol[pce] == side) {
 					return BOOL.TRUE;
 				}
 				break;
@@ -368,8 +368,8 @@ class GameBoard {
 	}
 	
 	for(index = 0; index < 8; index++) {
-		pce = this.pieces[sq + KiDir[index]];
-		if(pce != SQUARES.OFFBOARD && PieceCol[pce] == side && PieceKing[pce] == BOOL.TRUE) {
+		pce = this.pieces[sq + kiDir[index]];
+		if(pce != SQUARES.OFFBOARD && PieceCol[pce] == side && pieceKing[pce] == BOOL.TRUE) {
 			return BOOL.TRUE;
 		}
 	}

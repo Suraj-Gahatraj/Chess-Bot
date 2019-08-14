@@ -1,6 +1,6 @@
 var perft_leafNodes;
 
-function Perft(depth) { 	
+function perft(depth) { 	
 
 	if(depth == 0) {
         perft_leafNodes++;
@@ -18,14 +18,14 @@ function Perft(depth) {
 		if(MakeMove(move) == BOOL.FALSE) {
 			continue;
 		}		
-		Perft(depth-1);
+		perft(depth-1);
 		TakeMove();
 	}
     
     return;
 }
 
-function PerftTest(depth) {    
+function perftTest(depth) {    
 
 	gameBoard.PrintBoard();
 	console.log("Starting Test To Depth:" + depth);	
@@ -42,7 +42,7 @@ function PerftTest(depth) {
 		}	
 		moveNum++;	
         var cumnodes = perft_leafNodes;
-		Perft(depth-1);
+		perft(depth-1);
 		TakeMove();
 		var oldnodes = perft_leafNodes - cumnodes;
         console.log("move:" + moveNum + " " + PrMove(move) + " " + oldnodes);
