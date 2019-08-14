@@ -151,3 +151,30 @@ margin-left: 10px;
 .Piece {
 	position: absolute;
 }
+
+
+.game-finish
+{
+	
+	border:1px solid white;
+	width:30%;
+	float:right;
+	border: 1px solid white;
+	width: 30%;
+	float: right;
+	margin: 0 auto;
+    margin-top: 0px;
+    margin-right: auto;
+	display: inline-block;
+	background: red;
+	margin-right: 110px;
+	margin-top: 0px;
+	padding: 6px;
+	display:none;
+}
+
+.turn-time
+{
+	color: white;
+		font-size: 32px;
+}

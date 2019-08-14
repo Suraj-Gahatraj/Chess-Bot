@@ -3,6 +3,7 @@
 
 document.getElementById("SetFen").addEventListener("click",()=>{
 	var fenStr = document.getElementById("fenIn").value;
+	document.getElementById("gamefinish").style.display="none";
 	newGame(fenStr);
 });
 
@@ -19,11 +20,26 @@ document.getElementById("NewGameButton").addEventListener("click",()=>{
 });
 
 
+document.getElementById("PlayAgain").addEventListener("click",()=>{
+	document.getElementById("gamefinish").style.display="none";
+	newGame(START_FEN);
+
+});
+
+document.getElementById("exitgame").addEventListener("click",()=>{
+	var win = window.open("about:blank", "_self");
+    win.close(); 	 
+});
+
+
+
 function newGame(fenStr) {
 	gameBoard.ParseFen(fenStr);
 	gameBoard.PrintBoard();
 	setInitialBoardPieces();
 	checkAndSet();
+	var src=document.getElementById("TurnTime");
+		src.innerHTML="your turn";	
 }
 
 function clearAllPieces() {
@@ -101,6 +117,9 @@ function clickedSquare(pageX, pageY) {
 	console.log('Clicked sq:' + PrSq(sq));
 	
 	setSqSelected(sq);	
+	var src=document.getElementById("TurnTime");
+	src.innerHTML="";	
+	
 	
 	return sq;
 }
@@ -117,6 +136,7 @@ document.addEventListener("click",function(e)
 		}
 		
 		makeuserMove();
+		
 	}
 }
 
@@ -313,11 +333,22 @@ function checkResult() {
 	if(InCheck == BOOL.TRUE) {
 		if(gameBoard.side == COLOURS.WHITE) {
 		
-		document.getElementById("GameStatus").innerHTML=" game over BLACK MATES";
+		
+		var src=document.getElementById("GameStatus");
+		var h1=document.createElement("H1");
+		var t = document.createTextNode("Black Wins! White Mates"); 
+		document.getElementById("gamefinish").style.display="block";
+		h1.appendChild(t);
+		src.appendChild(h1);
 	      return BOOL.TRUE;
         } else {
 		  
-		  document.getElementById("GameStatus").innerHTML=" game over 	White Mates";
+		  document.getElementById("GameStatus")
+		  var h1=document.createElement("H1");
+		var t = document.createTextNode("Black Wins! White Mates"); 
+		document.getElementById("gamefinish").style.display="block";
+		h1.appendChild(t);
+		src.appendChild(h1);
 	      return BOOL.TRUE;
         }
 	} else {
@@ -342,6 +373,8 @@ function preSearch() {
 	if(gameController.GameOver == BOOL.FALSE) {
 		searchController.thinking = BOOL.TRUE;
 		setTimeout( function() { startSearch(); }, 200 );
+		
+	
 	}
 }
 
@@ -364,4 +397,6 @@ function startSearch() {
 	MakeMove(searchController.best);
 	moveGUIPiece(searchController.best);
 	checkAndSet();
+	var src=document.getElementById("TurnTime");
+		src.innerHTML="your turn";	
 }

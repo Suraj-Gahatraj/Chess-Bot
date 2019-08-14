@@ -2,7 +2,7 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
-		<title>JSChess</title>	
+		<title>Chess BOT</title>	
 		<link href="css/styles.css" rel="stylesheet" type="text/css">	
 		<script type="text/javascript"> if (!window.console) console = {log: function() {}}; </script>
 	</head>
@@ -32,6 +32,7 @@
 									<option value="8">8s</option>
 									<option value="10">10s</option>
 								  </select><br/><br/><br/>
+								
 								  <span id="BestOut">BestMove:</span><br/>
 								  <span id="DepthOut">Depth:</span><br/>
 								  <span id="ScoreOut">Score:</span><br/>
@@ -44,8 +45,18 @@
 					<button type="button" id="NewGameButton" class="engine-button">New Game</button>
 					<button type="button" id="FlipButton" class="engine-button">Flip Board</button>
 					<button type="button" id="TakeButton" class="engine-button">Take Back</button>
+
 					<span id="GameStatus"></span>
+					<p id="TurnTime" class="turn-time">Turn Time:</span><br/>
 				</div>
+				</div>
+
+
+				<div class="game-finish" id="gamefinish">
+					<div class="finish-wrapper">
+						<button id="PlayAgain" class="engine-button">Play Again</button>
+						<button  class="engine-button" id="exitgame">Exit Game</button>
+					</div>
 				</div>
 	</div>
 
