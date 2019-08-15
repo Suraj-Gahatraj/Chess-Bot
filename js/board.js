@@ -35,7 +35,7 @@ class GameBoard {
 			sq120 = this.pList[PCEINDEX(t_piece,t_pce_num)];
 			if(this.pieces[sq120] != t_piece) {
 				console.log('Error Pce Lists');
-				return BOOL.FALSE;
+				return false;
 			}
 		}	
 	}
@@ -50,26 +50,26 @@ class GameBoard {
 	for(t_piece = PIECES.wP; t_piece <= PIECES.bK; ++t_piece) {
 		if(t_pceNum[t_piece] != this.pceNum[t_piece]) {
 				console.log('Error t_pceNum');
-				return BOOL.FALSE;
+				return false;
 			}	
 	}
 	
 	if(t_material[COLOURS.WHITE] != this.material[COLOURS.WHITE] ||
 			 t_material[COLOURS.BLACK] != this.material[COLOURS.BLACK]) {
 				console.log('Error t_material');
-				return BOOL.FALSE;
+				return false;
 	}	
 	
 	if(this.side!=COLOURS.WHITE && this.side!=COLOURS.BLACK) {
 				console.log('Error this.side');
-				return BOOL.FALSE;
+				return false;
 	}
 	
 	if(GeneratePosKey()!=this.posKey) {
 				console.log('Error this.posKey');
-				return BOOL.FALSE;
+				return false;
 	}	
-	return BOOL.TRUE;
+	return true;
 }
 
  printBoard() {
@@ -302,7 +302,7 @@ class GameBoard {
 		var line =((rank+1) + "  ");
 		for(file = FILES.FILE_A; file <= FILES.FILE_H; file++) {
 			sq = FR2SQ(file,rank);
-			if(SqAttacked(sq, this.side^1) == BOOL.TRUE) piece = "X";
+			if(SqAttacked(sq, this.side^1) == true) piece = "X";
 			else piece = "-";
 			line += (" " + piece + " ");
 		}
@@ -320,18 +320,18 @@ class GameBoard {
 	
 	if(side == COLOURS.WHITE) {
 		if(this.pieces[sq - 11] == PIECES.wP || this.pieces[sq - 9] == PIECES.wP) {
-			return BOOL.TRUE;
+			return true;
 		}
 	} else {
 		if(this.pieces[sq + 11] == PIECES.bP || this.pieces[sq + 9] == PIECES.bP) {
-			return BOOL.TRUE;
+			return true;
 		}	
 	}
 	
 	for(index = 0; index < 8; index++) {
 		pce = this.pieces[sq + knDir[index]];
-		if(pce != SQUARES.OFFBOARD && PieceCol[pce] == side && PieceKnight[pce] == BOOL.TRUE) {
-			return BOOL.TRUE;
+		if(pce != SQUARES.OFFBOARD && PieceCol[pce] == side && PieceKnight[pce] == true) {
+			return true;
 		}
 	}
 	
@@ -341,8 +341,8 @@ class GameBoard {
 		pce = this.pieces[t_sq];
 		while(pce != SQUARES.OFFBOARD) {
 			if(pce != PIECES.EMPTY) {
-				if(pieceRookQueen[pce] == BOOL.TRUE && PieceCol[pce] == side) {
-					return BOOL.TRUE;
+				if(pieceRookQueen[pce] == true && PieceCol[pce] == side) {
+					return true;
 				}
 				break;
 			}
@@ -357,8 +357,8 @@ class GameBoard {
 		pce = this.pieces[t_sq];
 		while(pce != SQUARES.OFFBOARD) {
 			if(pce != PIECES.EMPTY) {
-				if(pieceBishopQueen[pce] == BOOL.TRUE && PieceCol[pce] == side) {
-					return BOOL.TRUE;
+				if(pieceBishopQueen[pce] == true && PieceCol[pce] == side) {
+					return true;
 				}
 				break;
 			}
@@ -369,12 +369,12 @@ class GameBoard {
 	
 	for(index = 0; index < 8; index++) {
 		pce = this.pieces[sq + kiDir[index]];
-		if(pce != SQUARES.OFFBOARD && PieceCol[pce] == side && pieceKing[pce] == BOOL.TRUE) {
-			return BOOL.TRUE;
+		if(pce != SQUARES.OFFBOARD && PieceCol[pce] == side && pieceKing[pce] == true) {
+			return true;
 		}
 	}
 	
-	return BOOL.FALSE;
+	return false;
 	
 
 }

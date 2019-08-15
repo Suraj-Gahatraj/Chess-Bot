@@ -33,8 +33,8 @@ function CAPTURED(m) { return ( (m >> 14) & 0xF); }
 function PROMOTED(m) { return ( (m >> 20) & 0xF); }
 
 function SQOFFBOARD(sq) {
-	if(filesBrd[sq]==SQUARES.OFFBOARD) return BOOL.TRUE;
-	return BOOL.FALSE;	
+	if(filesBrd[sq]==SQUARES.OFFBOARD) return true;
+	return false;	
 }
 
 

@@ -15,7 +15,7 @@ function perft(depth) {
 	for(index = gameBoard.moveListStart[gameBoard.ply]; index < gameBoard.moveListStart[gameBoard.ply + 1]; ++index) {
 	
 		move = gameBoard.moveList[index];	
-		if(MakeMove(move) == BOOL.FALSE) {
+		if(MakeMove(move) == false) {
 			continue;
 		}		
 		perft(depth-1);
@@ -37,7 +37,7 @@ function perftTest(depth) {
 	for(index = gameBoard.moveListStart[gameBoard.ply]; index < gameBoard.moveListStart[gameBoard.ply + 1]; ++index) {
 	
 		move = gameBoard.moveList[index];	
-		if(MakeMove(move) == BOOL.FALSE) {
+		if(MakeMove(move) == false) {
 			continue;
 		}	
 		moveNum++;	

@@ -112,7 +112,7 @@ function makeMove(move) {
     gameBoard.hisPly++;
 	gameBoard.ply++;
 	
-	if(piecePawn[gameBoard.pieces[from]] == BOOL.TRUE) {
+	if(piecePawn[gameBoard.pieces[from]] == true) {
         gameBoard.fiftyMove = 0;
         if( (move & MFLAGPS) != 0) {
             if(side==COLOURS.WHITE) {
@@ -137,10 +137,10 @@ function makeMove(move) {
     
     if(gameBoard.sqAttacked(gameBoard.pList[PCEINDEX(Kings[side],0)], gameBoard.side))  {
          takeMove();
-    	return BOOL.FALSE;
+    	return false;
     }
     
-    return BOOL.TRUE;
+    return true;
 }
 
 function takeMove() {

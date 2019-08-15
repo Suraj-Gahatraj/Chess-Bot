@@ -16,11 +16,11 @@ function prMove(move) {
 
 	if(promoted != PIECES.EMPTY) {
 		var pchar = 'q';
-		if(PieceKnight[promoted] == BOOL.TRUE) {
+		if(PieceKnight[promoted] == true) {
 			pchar = 'n';
-		} else if(PieceRookQueen[promoted] == BOOL.TRUE && PieceBishopQueen[promoted] == BOOL.FALSE)  {
+		} else if(PieceRookQueen[promoted] == true && PieceBishopQueen[promoted] == false)  {
 			pchar = 'r';
-		} else if(PieceRookQueen[promoted] == BOOL.FALSE && PieceBishopQueen[promoted] == BOOL.TRUE)   {
+		} else if(PieceRookQueen[promoted] == false && PieceBishopQueen[promoted] == true)   {
 			pchar = 'b';
 		}
 		mvStr += pchar;
@@ -49,7 +49,7 @@ function parseMove(from, to) {
 	
 	var Move = NOMOVE;
 	var PromPce = PIECES.EMPTY;
-	var found = BOOL.FALSE;
+	var found = false;
 	
 	for(index = gameBoard.moveListStart[gameBoard.ply]; 
 							index < gameBoard.moveListStart[gameBoard.ply + 1]; ++index) {	
@@ -59,18 +59,18 @@ function parseMove(from, to) {
 			if(PromPce != PIECES.EMPTY) {
 				if( (PromPce == PIECES.wQ && gameBoard.side == COLOURS.WHITE) ||
 					(PromPce == PIECES.bQ && gameBoard.side == COLOURS.BLACK) ) {
-					found = BOOL.TRUE;
+					found = true;
 					break;
 				}
 				continue;
 			}
-			found = BOOL.TRUE;
+			found = true;
 			break;
 		}		
 	}
 	
-	if(found != BOOL.FALSE) {
-		if(makeMove(Move) == BOOL.FALSE) {
+	if(found != false) {
+		if(makeMove(Move) == false) {
 			return NOMOVE;
 		}
 		takeMove();

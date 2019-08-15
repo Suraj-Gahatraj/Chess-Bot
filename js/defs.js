@@ -1,3 +1,4 @@
+
 var PIECES =  { EMPTY : 0, wP : 1, wN : 2, wB : 3,wR : 4, wQ : 5, wK : 6, 
               bP : 7, bN : 8, bB : 9, bR : 10, bQ : 11, bK : 12  };
               
@@ -19,7 +20,6 @@ var SQUARES = {
   NO_SQ:99, OFFBOARD:100
 };
 
-var BOOL = { FALSE:0, TRUE:1 };
 var MAXGAMEMOVES = 2048;
 var MAXPOSITIONMOVES = 256;
 var MAXDEPTH = 64;
@@ -34,19 +34,19 @@ var pceChar = ".PNBRQKpnbrqk";
 var sideChar = "wb-";
 var rankChar = "12345678";
 var fileChar = "abcdefgh";
-var pieceBig = [ BOOL.FALSE, BOOL.FALSE, BOOL.TRUE, BOOL.TRUE, BOOL.TRUE, BOOL.TRUE, BOOL.TRUE, BOOL.FALSE, BOOL.TRUE, BOOL.TRUE, BOOL.TRUE, BOOL.TRUE, BOOL.TRUE ];
-var pieceMaj = [ BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.TRUE, BOOL.TRUE, BOOL.TRUE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.TRUE, BOOL.TRUE, BOOL.TRUE ];
-var pieceMin = [ BOOL.FALSE, BOOL.FALSE, BOOL.TRUE, BOOL.TRUE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.TRUE, BOOL.TRUE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE ];
+var pieceBig = [ false, false, true, true, true, true, true, false, true, true, true, true, true ];
+var pieceMaj = [ false, false, false, false, true, true, true, false, false, false, true, true, true ];
+var pieceMin = [ false, false, true, true, false, false, false, false, true, true, false, false, false ];
 var pieceVal= [ 0, 100, 325, 325, 550, 1000, 50000, 100, 325, 325, 550, 1000, 50000  ];
 var PieceCol = [ COLOURS.BOTH, COLOURS.WHITE, COLOURS.WHITE, COLOURS.WHITE, COLOURS.WHITE, COLOURS.WHITE, COLOURS.WHITE,
 	COLOURS.BLACK, COLOURS.BLACK, COLOURS.BLACK, COLOURS.BLACK, COLOURS.BLACK, COLOURS.BLACK ];
 	
-var piecePawn = [ BOOL.FALSE, BOOL.TRUE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.TRUE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE ];	
-var PieceKnight = [ BOOL.FALSE, BOOL.FALSE, BOOL.TRUE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.TRUE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE ];
-var pieceKing = [ BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.TRUE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.TRUE ];
-var pieceRookQueen = [ BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.TRUE, BOOL.TRUE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.TRUE, BOOL.TRUE, BOOL.FALSE ];
-var pieceBishopQueen = [ BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.TRUE, BOOL.FALSE, BOOL.TRUE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.TRUE, BOOL.FALSE, BOOL.TRUE, BOOL.FALSE ];
-var pieceSlides = [ BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.TRUE, BOOL.TRUE, BOOL.TRUE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.TRUE, BOOL.TRUE, BOOL.TRUE, BOOL.FALSE ];
+var piecePawn = [ false, true, false, false, false, false, false, true, false, false, false, false, false ];	
+var PieceKnight = [ false, false, true, false, false, false, false, false, true, false, false, false, false ];
+var pieceKing = [ false, false, false, false, false, false, true, false, false, false, false, false, true ];
+var pieceRookQueen = [ false, false, false, false, true, true, false, false, false, false, true, true, false ];
+var pieceBishopQueen = [ false, false, false, true, false, true, false, false, false, true, false, true, false ];
+var pieceSlides = [ false, false, false, true, true, true, false, false, false, true, true, true, false ];
 
 var knDir = [ -8, -19,	-21, -12, 8, 19, 21, 12 ];
 var rkDir = [ -1, -10,	1, 10 ];

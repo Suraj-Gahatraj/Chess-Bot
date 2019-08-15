@@ -49,7 +49,7 @@ clearPvTable() {
 
 checkUp() {
 	if (( Date.now() - this.start ) > this.time) {
-		this.stop = BOOL.TRUE;
+		this.stop = true;
 	}
 }
  isRepetition() {
@@ -57,11 +57,11 @@ checkUp() {
 	
 	for(index = gameBoard.hisPly - gameBoard.fiftyMove; index < gameBoard.hisPly - 1; ++index) {
 		if(gameBoard.posKey == gameBoard.history[index].posKey) {
-			return BOOL.TRUE;
+			return true;
 		}
 	}
 	
-	return BOOL.FALSE;
+	return false;
 }
  quieScence(alpha, beta) {
 
@@ -103,7 +103,7 @@ checkUp() {
 		
 		Move = gameBoard.moveList[MoveNum];	
 
-		if(makeMove(Move) == BOOL.FALSE) {
+		if(makeMove(Move) == false) {
 			continue;
 		}		
 		Legal++;
@@ -111,7 +111,7 @@ checkUp() {
 		
 		takeMove();
 		
-		if(this.stop == BOOL.TRUE) {
+		if(this.stop == true) {
 			return 0;
 		}
 		
@@ -158,7 +158,7 @@ checkUp() {
 	}	
 	
 	var InCheck = gameBoard.sqAttacked(gameBoard.pList[PCEINDEX(Kings[gameBoard.side],0)], gameBoard.side^1);
-	if(InCheck == BOOL.TRUE)  {
+	if(InCheck == true)  {
 		depth++;
 	}	
 	
@@ -188,7 +188,7 @@ checkUp() {
 		
 		Move = gameBoard.moveList[MoveNum];	
 		
-		if(makeMove(Move) == BOOL.FALSE) {
+		if(makeMove(Move) == false) {
 			continue;
 		}		
 		Legal++;
@@ -196,7 +196,7 @@ checkUp() {
 		
 		takeMove();
 		
-		if(this.stop == BOOL.TRUE) {
+		if(this.stop == true) {
 			return 0;
 		}
 		
@@ -223,7 +223,7 @@ checkUp() {
 	}	
 	
 	if(Legal == 0) {
-		if(InCheck == BOOL.TRUE) {
+		if(InCheck == true) {
 			return -MATE + gameBoard.ply;
 		} else {
 			return 0;
@@ -256,7 +256,7 @@ checkUp() {
 	this.fh = 0;
 	this.fhf = 0;
 	this.start = Date.now();
-	this.stop = BOOL.FALSE;
+	this.stop = false;
 }
 
  searchPosition() {
@@ -274,7 +274,7 @@ checkUp() {
 	
 		Score = this.alphaBeta(-INFINITE, INFINITE, currentDepth);
 					
-		if(this.stop == BOOL.TRUE) {
+		if(this.stop == true) {
 			break;
 		}
 		
@@ -296,7 +296,7 @@ checkUp() {
 	}	
 
 	this.best = bestMove;
-	this.thinking = BOOL.FALSE;
+	this.thinking = false;
 	this.updateDOMStats(bestScore, currentDepth);
 }
 

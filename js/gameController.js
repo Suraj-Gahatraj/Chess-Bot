@@ -4,7 +4,7 @@ class GameController {
     {
         this.engineSide = COLOURS.BOTH;
         this.playerSide = COLOURS.BOTH;
-        this.gameOver = BOOL.FALSE;
+        this.gameOver = false;
     }
 
 }

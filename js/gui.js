@@ -76,7 +76,7 @@ function deSelectSq(sq) {
 	for(var i=0;i<Square.length;i++)
 	{
 		var x=Square[i];
-		 if(pieceIsOnSq(sq, x.offsetTop,x.offsetLeft) == BOOL.TRUE) {
+		 if(pieceIsOnSq(sq, x.offsetTop,x.offsetLeft) == true) {
 
 						console.log(" hey checking ",x.classList);
 						x.classList.remove("SqSelected");
@@ -91,7 +91,7 @@ function setSqSelected(sq) {
 	{
 		var x=Square[i];
 	
-		 if(pieceIsOnSq(sq, x.offsetTop,x.offsetLeft) == BOOL.TRUE) {
+		 if(pieceIsOnSq(sq, x.offsetTop,x.offsetLeft) == true) {
 						x.classList.add("SqSelected");
 				}
 	}
@@ -187,10 +187,10 @@ function pieceIsOnSq(sq, top, left) {
 
 	if( (ranksBrd[sq] == 7 - Math.round(top/60) ) && 
 		filesBrd[sq] == Math.round(left/60) ) {
-		return BOOL.TRUE;
+		return true;
 	}
 		
-	return BOOL.FALSE;
+	return false;
 
 }
 
@@ -200,7 +200,7 @@ function removeGUIPiece(sq)
 	for(var i=0;i<Piece.length;i++)
 	{
 		let thisPiece=Piece[i];
-		if(pieceIsOnSq(sq, thisPiece.offsetTop, thisPiece.offsetLeft) == BOOL.TRUE) {
+		if(pieceIsOnSq(sq, thisPiece.offsetTop, thisPiece.offsetLeft) == true) {
 			thisPiece.parentNode.removeChild(thisPiece);
 		}
 	}
@@ -249,7 +249,7 @@ function moveGUIPiece(move) {
 	 {
 	 	var x=Piece[i];
 
-	 	if(pieceIsOnSq(from, x.offsetTop, x.offsetLeft) == BOOL.TRUE) {
+	 	if(pieceIsOnSq(from, x.offsetTop, x.offsetLeft) == true) {
 				 x.classList="";
 				 x.classList="Piece "+rankName+ " " + fileName;
 	 		 	}
@@ -272,16 +272,16 @@ function moveGUIPiece(move) {
 
 function drawMaterial() {
 
-	if (gameBoard.pceNum[PIECES.wP]!=0 || gameBoard.pceNum[PIECES.bP]!=0) return BOOL.FALSE;
+	if (gameBoard.pceNum[PIECES.wP]!=0 || gameBoard.pceNum[PIECES.bP]!=0) return false;
 	if (gameBoard.pceNum[PIECES.wQ]!=0 || gameBoard.pceNum[PIECES.bQ]!=0 ||
-					gameBoard.pceNum[PIECES.wR]!=0 || gameBoard.pceNum[PIECES.bR]!=0) return BOOL.FALSE;
-	if (gameBoard.pceNum[PIECES.wB] > 1 || gameBoard.pceNum[PIECES.bB] > 1) {return BOOL.FALSE;}
-    if (gameBoard.pceNum[PIECES.wN] > 1 || gameBoard.pceNum[PIECES.bN] > 1) {return BOOL.FALSE;}
+					gameBoard.pceNum[PIECES.wR]!=0 || gameBoard.pceNum[PIECES.bR]!=0) return false;
+	if (gameBoard.pceNum[PIECES.wB] > 1 || gameBoard.pceNum[PIECES.bB] > 1) {return false;}
+    if (gameBoard.pceNum[PIECES.wN] > 1 || gameBoard.pceNum[PIECES.bN] > 1) {return false;}
 	
-	if (gameBoard.pceNum[PIECES.wN]!=0 && gameBoard.pceNum[PIECES.wB]!=0) {return BOOL.FALSE;}
-	if (gameBoard.pceNum[PIECES.bN]!=0 && gameBoard.pceNum[PIECES.bB]!=0) {return BOOL.FALSE;}
+	if (gameBoard.pceNum[PIECES.wN]!=0 && gameBoard.pceNum[PIECES.wB]!=0) {return false;}
+	if (gameBoard.pceNum[PIECES.bN]!=0 && gameBoard.pceNum[PIECES.bB]!=0) {return false;}
 	 
-	return BOOL.TRUE;
+	return true;
 }
 
 function threeFoldRep() {
@@ -298,17 +298,17 @@ function threeFoldRep() {
 function checkResult() {
 	if(gameBoard.fiftyMove >= 100) {
 		document.getElementById("GameStatus").innerHTML="GAME DRAWN {Fifty Move Rule}";
-		 return BOOL.TRUE;
+		 return true;
 	}
 	
 	if (threeFoldRep() >= 2) {
 		 document.getElementById("GameStatus").innerHTML="GAME DRAWN {3- fold -repetition}";
-     	return BOOL.TRUE;
+     	return true;
     }
 	
-	if (drawMaterial() == BOOL.TRUE) {
+	if (drawMaterial() == true) {
 		 document.getElementById("GameStatus").innerHTML="GAME DRAWN {insufficient material to mate}";
-     	return BOOL.TRUE;
+     	return true;
     }
     
     generateMoves();
@@ -318,7 +318,7 @@ function checkResult() {
 	
 	for(MoveNum = gameBoard.moveListStart[gameBoard.ply]; MoveNum < gameBoard.moveListStart[gameBoard.ply + 1]; ++MoveNum)  {	
        
-        if ( makeMove(gameBoard.moveList[MoveNum]) == BOOL.FALSE)  {
+        if ( makeMove(gameBoard.moveList[MoveNum]) == false)  {
             continue;
         }
         found++;
@@ -326,11 +326,11 @@ function checkResult() {
 		break;
     }
 	
-	if(found != 0) return BOOL.FALSE;
+	if(found != 0) return false;
 	
 	var InCheck = gameBoard.sqAttacked(gameBoard.pList[PCEINDEX(Kings[gameBoard.side],0)], gameBoard.side^1);
 	
-	if(InCheck == BOOL.TRUE) {
+	if(InCheck == true) {
 		if(gameBoard.side == COLOURS.WHITE) {
 		
 		
@@ -340,7 +340,7 @@ function checkResult() {
 		document.getElementById("gamefinish").style.display="block";
 		h1.appendChild(t);
 		src.appendChild(h1);
-	      return BOOL.TRUE;
+	      return true;
         } else {
 		  
 		  document.getElementById("GameStatus")
@@ -349,29 +349,29 @@ function checkResult() {
 		document.getElementById("gamefinish").style.display="block";
 		h1.appendChild(t);
 		src.appendChild(h1);
-	      return BOOL.TRUE;
+	      return true;
         }
 	} else {
 		
 		document.getElementById("GameStatus").innerHTML=" Game Drawn Stale Mate";
 	}
 	
-	return BOOL.FALSE;	
+	return false;	
 }
 
 function checkAndSet() {
-	if(checkResult() == BOOL.TRUE) {
-		gameController.gameOver = BOOL.TRUE;
+	if(checkResult() == true) {
+		gameController.gameOver = true;
 	} else {
-		gameController.gameOver = BOOL.FALSE;
+		gameController.gameOver = false;
 		
 		document.getElementById("GameStatus").innerHTML="";
 	}
 }
 
 function preSearch() {
-	if(gameController.gameOver == BOOL.FALSE) {
-		searchController.thinking = BOOL.TRUE;
+	if(gameController.gameOver == false) {
+		searchController.thinking = true;
 		setTimeout( function() { startSearch(); }, 200 );
 		
 	
