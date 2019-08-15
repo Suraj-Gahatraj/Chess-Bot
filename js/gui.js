@@ -1,37 +1,56 @@
 
 //var gameController=new GameController();
 
-document.getElementById("SetFen").addEventListener("click", () => {
-	var fenStr = document.getElementById("fenIn").value;
-	document.getElementById("gamefinish").style.display = "none";
-	newGame(fenStr);
-});
 
-document.getElementById("TakeButton").addEventListener("click", () => {
-	if (gameBoard.hisPly > 0) {
-		takeMove();
-		gameBoard.ply = 0;
-		setInitialBoardPieces();
-	}
-});
+guiComponentsEngine();
 
-document.getElementById("NewGameButton").addEventListener("click", () => {
-	newGame(START_FEN);
-});
+function guiComponentsEngine() {
+	setFenButton();
+	takeButton();
+	newGameButton();
+	playAgainButton();
+	exitGameButton();
+}
+
+function setFenButton() {
+	document.getElementById("SetFen").addEventListener("click", () => {
+		var fenStr = document.getElementById("fenIn").value;
+		document.getElementById("gamefinish").style.display = "none";
+		newGame(fenStr);
+	});
+}
+
+function takeButton() {
+	document.getElementById("TakeButton").addEventListener("click", () => {
+		if (gameBoard.hisPly > 0) {
+			takeMove();
+			gameBoard.ply = 0;
+			setInitialBoardPieces();
+		}
+	});
+}
 
 
-document.getElementById("PlayAgain").addEventListener("click", () => {
-	document.getElementById("gamefinish").style.display = "none";
-	newGame(START_FEN);
+function newGameButton() {
+	document.getElementById("NewGameButton").addEventListener("click", () => {
+		newGame(START_FEN);
+	});
+}
 
-});
+function playAgainButton() {
+	document.getElementById("PlayAgain").addEventListener("click", () => {
+		document.getElementById("gamefinish").style.display = "none";
+		newGame(START_FEN);
 
-document.getElementById("exitgame").addEventListener("click", () => {
-	var win = window.open("about:blank", "_self");
-	win.close();
-});
+	});
+}
 
-
+function exitGameButton() {
+	document.getElementById("exitgame").addEventListener("click", () => {
+		var win = window.open("about:blank", "_self");
+		win.close();
+	});
+}
 
 function newGame(fenStr) {
 	gameBoard.parseFen(fenStr);
@@ -49,16 +68,9 @@ function clearAllPieces() {
 }
 
 function setInitialBoardPieces() {
-
 	var sq;
 	var sq120;
-	var file, rank;
-	var rankName;
-	var fileName;
-	var imageString;
-	var pieceFileName;
 	var pce;
-
 	clearAllPieces();
 
 	for (sq = 0; sq < 64; ++sq) {
@@ -69,7 +81,6 @@ function setInitialBoardPieces() {
 		}
 	}
 }
-
 
 function deSelectSq(sq) {
 	var Square = document.getElementsByClassName('Square');
@@ -83,7 +94,6 @@ function deSelectSq(sq) {
 	}
 }
 
-
 function setSqSelected(sq) {
 	var Square = document.getElementsByClassName('Square');
 	for (var i = 0; i < Square.length; i++) {
@@ -94,7 +104,6 @@ function setSqSelected(sq) {
 		}
 	}
 }
-
 
 function clickedSquare(pageX, pageY) {
 	console.log('ClickedSquare() at ' + pageX + ',' + pageY);
@@ -117,8 +126,6 @@ function clickedSquare(pageX, pageY) {
 	setSqSelected(sq);
 	var src = document.getElementById("TurnTime");
 	src.innerHTML = "";
-
-
 	return sq;
 }
 
@@ -132,11 +139,8 @@ document.addEventListener("click", function (e) {
 		}
 
 		makeuserMove();
-
 	}
-}
-
-)
+});
 
 
 document.addEventListener("click", function (e) {
@@ -149,17 +153,13 @@ document.addEventListener("click", function (e) {
 	}
 }
 
-)
-
+);
 
 function makeuserMove() {
 
 	if (userMove.from != SQUARES.NO_SQ && userMove.to != SQUARES.NO_SQ) {
-
 		console.log("User Move:" + prSq(userMove.from) + prSq(userMove.to));
-
 		var parsed = parseMove(userMove.from, userMove.to);
-
 		if (parsed != NOMOVE) {
 			makeMove(parsed);
 			gameBoard.printBoard();
@@ -167,10 +167,8 @@ function makeuserMove() {
 			checkAndSet();
 			preSearch();
 		}
-
 		deSelectSq(userMove.from);
 		deSelectSq(userMove.to);
-
 		userMove.from = SQUARES.NO_SQ;
 		userMove.to = SQUARES.NO_SQ;
 	}
@@ -178,12 +176,10 @@ function makeuserMove() {
 }
 
 function pieceIsOnSq(sq, top, left) {
-
 	if ((ranksBrd[sq] == 7 - Math.round(top / 60)) &&
 		filesBrd[sq] == Math.round(left / 60)) {
 		return true;
 	}
-
 	return false;
 
 }
@@ -222,7 +218,6 @@ function moveGUIPiece(move) {
 
 	var from = FROMSQ(move);
 	var to = TOSQ(move);
-
 	if (move & MFLAGEP) {
 		var epRemove;
 		if (gameBoard.side == COLOURS.BLACK) {
@@ -239,8 +234,6 @@ function moveGUIPiece(move) {
 	var rank = ranksBrd[to];
 	var rankName = "rank" + (rank + 1);
 	var fileName = "file" + (file + 1);
-
-
 	var Piece = document.getElementsByClassName("Piece");
 	for (var i = 0; i < Piece.length; i++) {
 		var x = Piece[i];
@@ -273,7 +266,6 @@ function drawMaterial() {
 		gameBoard.pceNum[PIECES.wR] != 0 || gameBoard.pceNum[PIECES.bR] != 0) return false;
 	if (gameBoard.pceNum[PIECES.wB] > 1 || gameBoard.pceNum[PIECES.bB] > 1) { return false; }
 	if (gameBoard.pceNum[PIECES.wN] > 1 || gameBoard.pceNum[PIECES.bN] > 1) { return false; }
-
 	if (gameBoard.pceNum[PIECES.wN] != 0 && gameBoard.pceNum[PIECES.wB] != 0) { return false; }
 	if (gameBoard.pceNum[PIECES.bN] != 0 && gameBoard.pceNum[PIECES.bB] != 0) { return false; }
 
@@ -282,7 +274,6 @@ function drawMaterial() {
 
 function threeFoldRep() {
 	var i = 0, r = 0;
-
 	for (i = 0; i < gameBoard.hisPly; ++i) {
 		if (gameBoard.history[i].posKey == gameBoard.posKey) {
 			r++;
@@ -308,10 +299,8 @@ function checkResult() {
 	}
 
 	generateMoves();
-
 	var MoveNum = 0;
 	var found = 0;
-
 	for (MoveNum = gameBoard.moveListStart[gameBoard.ply]; MoveNum < gameBoard.moveListStart[gameBoard.ply + 1]; ++MoveNum) {
 
 		if (makeMove(gameBoard.moveList[MoveNum]) == false) {
@@ -328,8 +317,6 @@ function checkResult() {
 
 	if (InCheck == true) {
 		if (gameBoard.side == COLOURS.WHITE) {
-
-
 			var src = document.getElementById("GameStatus");
 			var h1 = document.createElement("H1");
 			var t = document.createTextNode("Black Wins! White Mates");
@@ -360,7 +347,6 @@ function checkAndSet() {
 		gameController.gameOver = true;
 	} else {
 		gameController.gameOver = false;
-
 		document.getElementById("GameStatus").innerHTML = "";
 	}
 }
