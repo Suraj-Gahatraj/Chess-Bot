@@ -1,34 +1,34 @@
 function getPvLine(depth) {
-	
+
 	var move = probePvTable();
 	var count = 0;
-	
-	while(move != NOMOVE && count < depth) {
-	
-		if( moveExists(move) == true) {
+
+	while (move != NOMOVE && count < depth) {
+
+		if (moveExists(move) == true) {
 			makeMove(move);
-			gameBoard.PvArray[count++] = move;			
+			gameBoard.PvArray[count++] = move;
 		} else {
 			break;
-		}		
-		move = probePvTable();	
+		}
+		move = probePvTable();
 	}
-	
-	while(gameBoard.ply > 0) {
+
+	while (gameBoard.ply > 0) {
 		takeMove();
 	}
-	
+
 	return count;
-	
+
 }
 
 function probePvTable() {
 	var index = gameBoard.posKey % PVENTRIES;
-	
-	if(gameBoard.PvTable[index].posKey == gameBoard.posKey) {
+
+	if (gameBoard.PvTable[index].posKey == gameBoard.posKey) {
 		return gameBoard.PvTable[index].move;
 	}
-	
+
 	return NOMOVE;
 }
 

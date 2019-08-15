@@ -1,7 +1,5 @@
 class GameController {
-
-    constructor()
-    {
+    constructor() {
         this.engineSide = COLOURS.BOTH;
         this.playerSide = COLOURS.BOTH;
         this.gameOver = false;
@@ -9,7 +7,7 @@ class GameController {
 
 }
 
-var gameController=new GameController();
+var gameController = new GameController();
 
 
 
