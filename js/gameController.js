@@ -9,7 +9,3 @@ class GameController {
 
 var gameController = new GameController();
 
-
-
-
-

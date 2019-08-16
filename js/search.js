@@ -290,7 +290,7 @@ class SearchController {
 			if (currentDepth != 1) {
 				line += (" Ordering:" + ((this.fhf / this.fh) * 100).toFixed(2) + "%");
 			}
-			console.log(line);
+
 
 		}
 
@@ -323,45 +323,6 @@ class SearchController {
 
 
 var searchController = new SearchController();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

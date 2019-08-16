@@ -29,7 +29,7 @@ class GameBoard {
 			for (t_pce_num = 0; t_pce_num < this.pceNum[t_piece]; ++t_pce_num) {
 				sq120 = this.pList[PCEINDEX(t_piece, t_pce_num)];
 				if (this.pieces[sq120] != t_piece) {
-					console.log('Error Pce Lists');
+
 					return false;
 				}
 			}
@@ -43,24 +43,24 @@ class GameBoard {
 
 		for (t_piece = PIECES.wP; t_piece <= PIECES.bK; ++t_piece) {
 			if (t_pceNum[t_piece] != this.pceNum[t_piece]) {
-				console.log('Error t_pceNum');
+
 				return false;
 			}
 		}
 
 		if (t_material[COLOURS.WHITE] != this.material[COLOURS.WHITE] ||
 			t_material[COLOURS.BLACK] != this.material[COLOURS.BLACK]) {
-			console.log('Error t_material');
+
 			return false;
 		}
 
 		if (this.side != COLOURS.WHITE && this.side != COLOURS.BLACK) {
-			console.log('Error this.side');
+
 			return false;
 		}
 
 		if (GeneratePosKey() != this.posKey) {
-			console.log('Error this.posKey');
+
 			return false;
 		}
 		return true;
@@ -68,7 +68,7 @@ class GameBoard {
 
 	printBoard() {
 		var sq, file, rank, piece;
-		console.log("\nGame Board:\n");
+
 		for (rank = RANKS.RANK_8; rank >= RANKS.RANK_1; rank--) {
 			var line = (rankChar[rank] + "  ");
 			for (file = FILES.FILE_A; file <= FILES.FILE_H; file++) {
@@ -76,23 +76,20 @@ class GameBoard {
 				piece = this.pieces[sq];
 				line += (" " + pceChar[piece] + " ");
 			}
-			console.log(line);
+
 		}
-		console.log("");
+
 		var line = "   ";
 		for (file = FILES.FILE_A; file <= FILES.FILE_H; file++) {
 			line += (' ' + fileChar[file] + ' ');
 		}
-		console.log(line);
-		console.log("side:" + sideChar[this.side]);
-		console.log("enPas:" + this.enPas);
+
 		line = "";
 		if (this.castlePerm & CASTLEBIT.WKCA) line += 'K';
 		if (this.castlePerm & CASTLEBIT.WQCA) line += 'Q';
 		if (this.castlePerm & CASTLEBIT.BKCA) line += 'k';
 		if (this.castlePerm & CASTLEBIT.BQCA) line += 'q';
-		console.log("castle:" + line);
-		console.log("key:" + this.posKey.toString(16));
+
 	}
 
 	generatePosKey() {
@@ -124,7 +121,7 @@ class GameBoard {
 		var piece, pceNum;
 		for (piece = PIECES.wP; piece <= PIECES.bK; ++piece) {
 			for (pceNum = 0; pceNum < this.pceNum[piece]; ++pceNum) {
-				console.log('Piece ' + pceChar[piece] + ' on ' + PrSq(this.pList[PCEINDEX(piece, pceNum)]));
+
 			}
 		}
 
@@ -211,7 +208,7 @@ class GameBoard {
 				case '7':
 				case '8':
 					piece = PIECES.EMPTY;
-					count = fen[fenCnt].charCodeAt() - '0'.charCodeAt();
+					count = Number(fen[fenCnt]);
 					break;
 
 				case '/':
@@ -221,7 +218,7 @@ class GameBoard {
 					fenCnt++;
 					continue;
 				default:
-					console.log("FEN error");
+
 					return;
 
 			}
@@ -254,9 +251,10 @@ class GameBoard {
 		fenCnt++;
 
 		if (fen[fenCnt] != '-') {
-			file = fen[fenCnt].charCodeAt() - 'a'.charCodeAt();
-			rank = fen[fenCnt + 1].charCodeAt() - '1'.charCodeAt();
-			console.log("fen[fenCnt]:" + fen[fenCnt] + " File:" + file + " Rank:" + rank);
+
+			file = Number(fen[fenCnt]);
+			rank = Number(fen[fenCnt + 1]);
+
 			this.enPas = FR2SQ(file, rank);
 		}
 
@@ -266,7 +264,7 @@ class GameBoard {
 
 	printSqAttacked() {
 		var sq, file, rank, piece;
-		console.log("\nAttacked:\n");
+
 		for (rank = RANKS.RANK_8; rank >= RANKS.RANK_1; rank--) {
 			var line = ((rank + 1) + "  ");
 			for (file = FILES.FILE_A; file <= FILES.FILE_H; file++) {
@@ -275,10 +273,9 @@ class GameBoard {
 				else piece = "-";
 				line += (" " + piece + " ");
 			}
-			console.log(line);
+
 		}
 
-		console.log("");
 
 	}
 

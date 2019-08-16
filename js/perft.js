@@ -28,7 +28,7 @@ function perft(depth) {
 function perftTest(depth) {
 
 	gameBoard.PrintBoard();
-	console.log("Starting Test To Depth:" + depth);
+	//console.log("Starting Test To Depth:" + depth);
 	perft_leafNodes = 0;
 
 	var index;
@@ -45,62 +45,11 @@ function perftTest(depth) {
 		perft(depth - 1);
 		TakeMove();
 		var oldnodes = perft_leafNodes - cumnodes;
-		console.log("move:" + moveNum + " " + PrMove(move) + " " + oldnodes);
+
 	}
 
-	console.log("Test Complete : " + perft_leafNodes + " leaf nodes visited");
 
 	return;
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

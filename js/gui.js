@@ -33,7 +33,10 @@ function takeButton() {
 
 function newGameButton() {
 	document.getElementById("NewGameButton").addEventListener("click", () => {
+
 		newGame(START_FEN);
+		var list = document.getElementById("deadPiece");
+		list.parentNode.removeChild(list);
 	});
 }
 
@@ -88,7 +91,7 @@ function deSelectSq(sq) {
 		var x = Square[i];
 		if (pieceIsOnSq(sq, x.offsetTop, x.offsetLeft) == true) {
 
-			console.log(" hey checking ", x.classList);
+
 			x.classList.remove("SqSelected");
 		}
 	}
@@ -106,7 +109,6 @@ function setSqSelected(sq) {
 }
 
 function clickedSquare(pageX, pageY) {
-	console.log('ClickedSquare() at ' + pageX + ',' + pageY);
 
 	var position = document.getElementById("Board");
 
@@ -121,7 +123,7 @@ function clickedSquare(pageX, pageY) {
 
 	var sq = FR2SQ(file, rank);
 
-	console.log('Clicked sq:' + prSq(sq));
+
 
 	setSqSelected(sq);
 	var src = document.getElementById("TurnTime");
@@ -158,7 +160,7 @@ document.addEventListener("click", function (e) {
 function makeuserMove() {
 
 	if (userMove.from != SQUARES.NO_SQ && userMove.to != SQUARES.NO_SQ) {
-		console.log("User Move:" + prSq(userMove.from) + prSq(userMove.to));
+
 		var parsed = parseMove(userMove.from, userMove.to);
 		if (parsed != NOMOVE) {
 			makeMove(parsed);
@@ -189,7 +191,7 @@ function removeGUIPiece(sq) {
 	for (var i = 0; i < Piece.length; i++) {
 		let thisPiece = Piece[i];
 		if (pieceIsOnSq(sq, thisPiece.offsetTop, thisPiece.offsetLeft) == true) {
-			console.log("hey working n dead ", thisPiece.src);
+
 			let src = document.getElementById("deadPiece");
 			let img = document.createElement("img");
 			img.src = thisPiece.src;
