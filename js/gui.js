@@ -33,10 +33,14 @@ function takeButton() {
 
 function newGameButton() {
 	document.getElementById("NewGameButton").addEventListener("click", () => {
+		var list = document.getElementById("deadPiece");
+		if (list.hasChildNodes) {
+			list.parentNode.removeChild(list);
+		}
 
 		newGame(START_FEN);
-		var list = document.getElementById("deadPiece");
-		list.parentNode.removeChild(list);
+
+
 	});
 }
 
@@ -192,8 +196,8 @@ function removeGUIPiece(sq) {
 		let thisPiece = Piece[i];
 		if (pieceIsOnSq(sq, thisPiece.offsetTop, thisPiece.offsetLeft) == true) {
 
-			let src = document.getElementById("deadPiece");
-			let img = document.createElement("img");
+			var src = document.getElementById("deadPiece");
+			var img = document.createElement("img");
 			img.src = thisPiece.src;
 			src.appendChild(img);
 			thisPiece.parentNode.removeChild(thisPiece);

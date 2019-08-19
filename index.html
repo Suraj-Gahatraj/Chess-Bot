@@ -9,64 +9,90 @@
 </head>
 
 <body>
-	<header class="header-tag">
-		<h3>Chess Bot</h3>
-	</header>
-	<div class="main-game-container">
-		<div class="container">
-
-			<div id="FenInDiv">
-				<p class="fen-text">FEN INPUT </p>
-				<input type="text" id="fenIn" />
-				<button type="button" id="SetFen" class="fen-button">Set Position</button>
-			</div>
-			<div id="Board" class="board-styler"></div>
-			<div class="engine-container">
-
-				<div id="EngineOutput"> <br />
-					<div class="engine-indicator">
-						Thinking Time:
-						<select id="ThinkTimeChoice">
-							<option value="1" selected="selected">1s</option>
-							<option value="2">2s</option>
-							<option value="4">4s</option>
-							<option value="6">6s</option>
-							<option value="8">8s</option>
-							<option value="10">10s</option>
-						</select><br /><br /><br />
-
-						<span id="BestOut">BestMove:</span><br />
-						<span id="DepthOut">Depth:</span><br />
-						<span id="ScoreOut">Score:</span><br />
-						<span id="NodesOut">Nodes:</span><br />
-						<span id="OrderingOut">Ordering:</span><br />
-						<span id="TimeOut">Time:</span><br /><br />
-					</div>
-
-					<button type="button" id="SearchButton" class="engine-button">Move Now</button>
-					<button type="button" id="NewGameButton" class="engine-button">New Game</button>
-					<!-- <button type="button" id="FlipButton" class="engine-button">Flip Board</button> -->
-					<button type="button" id="TakeButton" class="engine-button">Take Back</button>
-
-					<span id="GameStatus"></span>
-					<p id="TurnTime" class="turn-time">Turn Time:</span><br />
-				</div>
-			</div>
 
 
-			<div class="game-finish" id="gamefinish">
-				<div class="finish-wrapper">
-					<button id="PlayAgain" class="engine-button">Play Again</button>
-					<button class="engine-button" id="exitgame">Exit Game</button>
-				</div>
-			</div>
+	<div class="first-scene" id=firstScene>
 
-			<div id="deadPiece"></div>
+		<div class="right">
+			<img src="images/bot-image.png" class="bot-set">
 		</div>
 
+		<div class="left">
+			<h1 class="title-screen">CHESS BOT!
+			</h1>
+			<a href="#" class="screen-button" onclick="welcomescreen()">START GAME</a>
+		</div>
+		<script>
+			function welcomescreen() {
+				var firstScene = document.getElementById("firstScene");
+				var secondScene = document.getElementById("secondScene");
+				firstScene.style.display = "none";
+				secondScene.style.display = "block";
+			}
+		</script>
+
+	</div>
+
+	<div class="second-scene" id="secondScene">
+		<header class="header-tag">
+			<h3>Chess Bot</h3>
+		</header>
+		<div class="main-game-container">
+			<div class="container">
+
+				<div id="FenInDiv">
+					<p class="fen-text">FEN INPUT </p>
+					<input type="text" id="fenIn" />
+					<button type="button" id="SetFen" class="fen-button">Set Position</button>
+				</div>
+				<div id="Board" class="board-styler"></div>
+				<div class="engine-container">
+
+					<div id="EngineOutput"> <br />
+						<div class="engine-indicator">
+							Thinking Time:
+							<select id="ThinkTimeChoice">
+								<option value="1" selected="selected">1s</option>
+								<option value="2">2s</option>
+								<option value="4">4s</option>
+								<option value="6">6s</option>
+								<option value="8">8s</option>
+								<option value="10">10s</option>
+							</select><br /><br /><br />
+
+							<span id="BestOut">BestMove:</span><br />
+							<span id="DepthOut">Depth:</span><br />
+							<span id="ScoreOut">Score:</span><br />
+							<span id="NodesOut">Nodes:</span><br />
+							<span id="OrderingOut">Ordering:</span><br />
+							<span id="TimeOut">Time:</span><br /><br />
+						</div>
+
+						<button type="button" id="SearchButton" class="engine-button">Move Now</button>
+						<button type="button" id="NewGameButton" class="engine-button">New Game</button>
+						<!-- <button type="button" id="FlipButton" class="engine-button">Flip Board</button> -->
+						<button type="button" id="TakeButton" class="engine-button">Take Back</button>
+
+						<span id="GameStatus"></span>
+						<p id="TurnTime" class="turn-time">Turn Time:</span><br />
+					</div>
+				</div>
+
+
+				<div class="game-finish" id="gamefinish">
+					<div class="finish-wrapper">
+						<button id="PlayAgain" class="engine-button">Play Again</button>
+						<button class="engine-button" id="exitgame">Exit Game</button>
+					</div>
+				</div>
+
+				<div id="deadPiece"></div>
+			</div>
 
 
 
+
+		</div>
 	</div>
 
 	<script src="js/defs.js"></script>

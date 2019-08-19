@@ -1,4 +1,4 @@
-var BishopPair = 40;
+
 function evalPosition() {
 	var score = gameBoard.material[COLOURS.WHITE] - gameBoard.material[COLOURS.BLACK];
 	var pce;

@@ -175,91 +175,102 @@ class GameBoard {
 
 	parseFen(fen) {
 
-		this.resetBoard();
-		var rank = RANKS.RANK_8;
-		var file = FILES.FILE_A;
-		var piece = 0;
-		var count = 0;
-		var i = 0;
-		var sq120 = 0;
-		var fenCnt = 0; // fen[fenCnt]
-		while ((rank >= RANKS.RANK_1) && fenCnt < fen.length) {
-			count = 1;
-			switch (fen[fenCnt]) {
-				case 'p': piece = PIECES.bP; break;
-				case 'r': piece = PIECES.bR; break;
-				case 'n': piece = PIECES.bN; break;
-				case 'b': piece = PIECES.bB; break;
-				case 'k': piece = PIECES.bK; break;
-				case 'q': piece = PIECES.bQ; break;
-				case 'P': piece = PIECES.wP; break;
-				case 'R': piece = PIECES.wR; break;
-				case 'N': piece = PIECES.wN; break;
-				case 'B': piece = PIECES.wB; break;
-				case 'K': piece = PIECES.wK; break;
-				case 'Q': piece = PIECES.wQ; break;
+		try {
+			if (!fen.includes('r', 'n', 'b', 'q', 'k', 'R', 'N', 'B', 'Q', 'K', 'W', 'w')) throw err;
 
-				case '1':
-				case '2':
-				case '3':
-				case '4':
-				case '5':
-				case '6':
-				case '7':
-				case '8':
-					piece = PIECES.EMPTY;
-					count = Number(fen[fenCnt]);
+			this.resetBoard();
+			var rank = RANKS.RANK_8;
+			var file = FILES.FILE_A;
+			var piece = 0;
+			var count = 0;
+			var i = 0;
+			var sq120 = 0;
+			var fenCnt = 0; // fen[fenCnt]
+			while ((rank >= RANKS.RANK_1) && fenCnt < fen.length) {
+				count = 1;
+				switch (fen[fenCnt]) {
+					case 'p': piece = PIECES.bP; break;
+					case 'r': piece = PIECES.bR; break;
+					case 'n': piece = PIECES.bN; break;
+					case 'b': piece = PIECES.bB; break;
+					case 'k': piece = PIECES.bK; break;
+					case 'q': piece = PIECES.bQ; break;
+					case 'P': piece = PIECES.wP; break;
+					case 'R': piece = PIECES.wR; break;
+					case 'N': piece = PIECES.wN; break;
+					case 'B': piece = PIECES.wB; break;
+					case 'K': piece = PIECES.wK; break;
+					case 'Q': piece = PIECES.wQ; break;
+
+					case '1':
+					case '2':
+					case '3':
+					case '4':
+					case '5':
+					case '6':
+					case '7':
+					case '8':
+						piece = PIECES.EMPTY;
+						count = Number(fen[fenCnt]);
+						break;
+
+					case '/':
+					case ' ':
+						rank--;
+						file = FILES.FILE_A;
+						fenCnt++;
+						continue;
+					default:
+
+						return;
+
+				}
+
+				for (i = 0; i < count; i++) {
+					sq120 = FR2SQ(file, rank);
+					this.pieces[sq120] = piece;
+					file++;
+				}
+				fenCnt++;
+			} // while loop end
+
+			//rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
+			this.side = (fen[fenCnt] == 'w') ? COLOURS.WHITE : COLOURS.BLACK;
+			fenCnt += 2;
+
+			for (i = 0; i < 4; i++) {
+				if (fen[fenCnt] == ' ') {
 					break;
-
-				case '/':
-				case ' ':
-					rank--;
-					file = FILES.FILE_A;
-					fenCnt++;
-					continue;
-				default:
-
-					return;
-
-			}
-
-			for (i = 0; i < count; i++) {
-				sq120 = FR2SQ(file, rank);
-				this.pieces[sq120] = piece;
-				file++;
+				}
+				switch (fen[fenCnt]) {
+					case 'K': this.castlePerm |= CASTLEBIT.WKCA; break;
+					case 'Q': this.castlePerm |= CASTLEBIT.WQCA; break;
+					case 'k': this.castlePerm |= CASTLEBIT.BKCA; break;
+					case 'q': this.castlePerm |= CASTLEBIT.BQCA; break;
+					default: break;
+				}
+				fenCnt++;
 			}
 			fenCnt++;
-		} // while loop end
 
-		//rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
-		this.side = (fen[fenCnt] == 'w') ? COLOURS.WHITE : COLOURS.BLACK;
-		fenCnt += 2;
+			if (fen[fenCnt] != '-') {
 
-		for (i = 0; i < 4; i++) {
-			if (fen[fenCnt] == ' ') {
-				break;
+				file = Number(fen[fenCnt]);
+				rank = Number(fen[fenCnt + 1]);
+
+				this.enPas = FR2SQ(file, rank);
 			}
-			switch (fen[fenCnt]) {
-				case 'K': this.castlePerm |= CASTLEBIT.WKCA; break;
-				case 'Q': this.castlePerm |= CASTLEBIT.WQCA; break;
-				case 'k': this.castlePerm |= CASTLEBIT.BKCA; break;
-				case 'q': this.castlePerm |= CASTLEBIT.BQCA; break;
-				default: break;
-			}
-			fenCnt++;
-		}
-		fenCnt++;
 
-		if (fen[fenCnt] != '-') {
+			this.posKey = this.generatePosKey();
+			this.updateListsMaterial();
 
-			file = Number(fen[fenCnt]);
-			rank = Number(fen[fenCnt + 1]);
-
-			this.enPas = FR2SQ(file, rank);
 		}
 
-		this.posKey = this.generatePosKey();
-		this.updateListsMaterial();
+		catch (err) {
+			console.log("invalid input");
+		}
+
+
 	}
 
 	printSqAttacked() {
